@@ -31,34 +31,42 @@ int ft_printf(char const *str, ...)
     j = 0;
     while (str[i] != '\0')
     {
-        if (str[i] == '%' && str[i + 1] == 's')
+        if (str[i] == '%' && str[i + 1] != '\0')
         {
-            s = va_arg(args, const char *);
-            if (s != NULL)
+            i++;
+            if (str[i] == 's')
             {
+              s = va_arg(args, char *);
+              if (s != NULL)
+              {
                 while (*s)
                 {
                     write(1, s, 1);
                     s++;
                 }
+              } 
             }
-            i++;
-        }
-        if (str[i] == '%' && str[i + 1] == 'c')
-        {
-            s = va_arg(args, const char);
-            if (s != NULL)
+            if (str[i] == 'c')
             {
-                while (*s)
+                s = va_arg(args, int);
+                if (s != NULL)
                 {
-                    write(1, s, 1);
-                    s++;
+                    write(1, &s, 1);
+                }
+            }
+            if (str[i] == 'p')
+            {
+                s = va_arg(args, void *);
+                if (s != NULL)
+                {
+                    write (1, "0x", 2);
+                    write(1, &s, 1);
                 }
             }
         }
         else
         {
-            write(1, &str[i], 1);
+          write(1, &str[i], 12);
         }
         i++;
     }
@@ -67,6 +75,10 @@ int ft_printf(char const *str, ...)
 
 int main(void)
 {
-    char word[] = "Hola que tal %s, me ll%cmo manuel";
-    ft_printf(word, "estas", 'a');
+    int a;
+
+    a = 42;
+    void    *ptr = a;
+    char word[] = "Hola que tal %s, me ll%cmo manuel %p";
+    ft_printf(word, "estas", 'a', (unsigned long)ptr);
 }

@@ -23,7 +23,7 @@ int ft_printf(char const *str, ...)
     size_t  i;
     size_t  j;
     const   char    *s;
-    char    *mem;
+    unsigned long d;
 
     va_start(args, str);
     s = str;
@@ -57,16 +57,17 @@ int ft_printf(char const *str, ...)
             if (str[i] == 'p')
             {
                 s = va_arg(args, void *);
-                if (s != NULL)
+                d = (unsigned long)s;
+                if (d != NULL)
                 {
                     write (1, "0x", 2);
-                    write(1, &s, 1);
+                    write(1, &d, 1);
                 }
             }
         }
         else
         {
-          write(1, &str[i], 12);
+          write(1, &str[i], 1);
         }
         i++;
     }

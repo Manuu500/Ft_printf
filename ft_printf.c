@@ -16,7 +16,43 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+char    *display_char(char const *str, va_list args, const char *s)
+{
+    char    *mem;
 
+    s = va_arg(args, int);
+    mem = malloc(sizeof(char) * strlen(str) + 1);
+    if (!mem)
+        free(mem);
+    if (s != NULL)
+    {
+      mem[0] = (char)s;
+      mem[1] = '\0';
+    }
+    return (mem);
+}
+
+char    *display_word(char const *str, size_t i, va_list args, const char *s)
+{
+    char    *mem;
+    size_t  j;
+
+    j = 0;
+    s = va_arg(args, char *);
+    mem = malloc(sizeof(char*) * strlen(s) + 1);
+    if (!mem)
+        free(mem);
+    if (s != NULL)
+    {
+        while (s[j])
+        {
+            mem[j] = s[j];
+            j++;
+        }
+        mem[j] = '\0';
+    } 
+    return (mem);
+}
 
 int ft_printf(char const *str, ...)
 {
@@ -24,12 +60,10 @@ int ft_printf(char const *str, ...)
     size_t  i;
     size_t  j;
     const   char    *s;
-    unsigned long d;
 
     va_start(args, str);
     s = str;
     i = 0;
-    j = 0;
     while (str[i] != '\0')
     {
         if (str[i] == '%' && str[i + 1] != '\0')
@@ -37,41 +71,26 @@ int ft_printf(char const *str, ...)
             i++;
             if (str[i] == 's')
             {
-              s = va_arg(args, char *);
-              if (s != NULL)
-              {
-                while (*s)
-                {
-                    write(1, s, 1);
-                    s++;
-                }
-              } 
+                s = display_word(str, i, args, s);
+                if (!s)
+                  free (s);
             }
             if (str[i] == 'c')
             {
-                s = va_arg(args, int);
-                if (s != NULL)
-                {
-                    write(1, &s, 1);
-                }
-            }
-            if (str[i] == 'p')
-            {
-                s = va_arg(args, void *);
-                d = (unsigned long long)s;
-                if (d != NULL)
-                {
-                    write (1, "0x", 2);
-                    write(1, &d, 1);
-                }
+                s = display_char(str, args, s);
+                if (!s)
+                  free (s);
             }
             if (str[i] == '%')
             {
-                s = va_arg(args, char):
-                if (s != NULL)
-                {
-                    write(1, s, 1)
-                }
+                write(1, "%", 1);
+                s++;
+            }
+            j = 0;
+            while (s[j])
+            {
+                write(1, &s[j], 1);
+                j++;
             }
         }
         else
@@ -89,6 +108,6 @@ int main(void)
 
     a = 42;
     void    *ptr = a;
-    char word[] = "Hola que tal %s, me ll%cmo manuel %p %%";
-    ft_printf(word, "estas", 'a', (unsigned long)ptr);
+    char word[] = "Hola que tal %s, me ll%cmo manuel %%, y me gustan las cuquitas kkkkkkk %d";
+    ft_printf(word, "estas", 'a', '%', 42);
 }

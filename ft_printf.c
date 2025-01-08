@@ -16,21 +16,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-char    *display_char(char const *str, va_list args, const char *s)
-{
-    char    *mem;
-
-    s = va_arg(args, int);
-    mem = malloc(sizeof(char) * strlen(str) + 1);
-    if (!mem)
-        free(mem);
-    if (s != NULL)
-    {
-      mem[0] = (char)s;
-      mem[1] = '\0';
-    }
-    return (mem);
-}
 
 char    *display_word(char const *str, size_t i, va_list args, const char *s)
 {
@@ -54,6 +39,21 @@ char    *display_word(char const *str, size_t i, va_list args, const char *s)
     return (mem);
 }
 
+char    *display_char(char const *str, va_list args, const char *s)
+{
+    char    *mem;
+
+    s = va_arg(args, int);
+    mem = malloc(sizeof(char) * strlen(str) + 1);
+    if (!mem)
+        return (NULL);
+    if (s != NULL)
+    {
+      write(1, &s, 1);
+    }
+    return (mem);
+}
+
 int ft_printf(char const *str, ...)
 {
     va_list args;
@@ -73,7 +73,7 @@ int ft_printf(char const *str, ...)
             {
                 s = display_word(str, i, args, s);
                 if (!s)
-                  free (s);
+                  return (NULL);
             }
             if (str[i] == 'c')
             {

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -57,11 +58,19 @@ int ft_printf(char const *str, ...)
             if (str[i] == 'p')
             {
                 s = va_arg(args, void *);
-                d = (unsigned long)s;
+                d = (unsigned long long)s;
                 if (d != NULL)
                 {
                     write (1, "0x", 2);
                     write(1, &d, 1);
+                }
+            }
+            if (str[i] == '%')
+            {
+                s = va_arg(args, char):
+                if (s != NULL)
+                {
+                    write(1, s, 1)
                 }
             }
         }
@@ -80,6 +89,6 @@ int main(void)
 
     a = 42;
     void    *ptr = a;
-    char word[] = "Hola que tal %s, me ll%cmo manuel %p";
+    char word[] = "Hola que tal %s, me ll%cmo manuel %p %%";
     ft_printf(word, "estas", 'a', (unsigned long)ptr);
 }

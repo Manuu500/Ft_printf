@@ -6,11 +6,11 @@
 /*   By: mruiz-ur <mruiz-ur@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:42:06 by mruiz-ur          #+#    #+#             */
-/*   Updated: 2024/12/08 18:42:06 by mruiz-ur         ###   ########.fr       */
+/*   Updated: 2025/01/13 12:59:46 by mruiz-ur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 // #include <unistd.h>
 // #include <stdarg.h>
 // #include <stdio.h>
@@ -58,13 +58,11 @@ int ft_printf(char const *str, ...)
 {
     va_list args;
     size_t  i;
-    size_t  j;
-    const   char    *s;
+    char    *s;
     int a;
-    char    c;
 
     va_start(args, str);
-    s = str;
+    s = (char *)str;
     i = 0;
     while (str[i] != '\0')
     {
@@ -78,17 +76,24 @@ int ft_printf(char const *str, ...)
             }
             else if (str[i] == 'c')
             {
-                c = va_arg(args, int);
+                a = va_arg(args, int);
                 ft_putchar_fd(a, 1);
             }
             else if (str[i] == '%')
-            {
                 ft_putchar_fd('%', 1);
-            }
-            else if (str[i] == 'i')
+            else if (str[i] == 'i' || str[i] == 'd')
             {
                 a = va_arg(args, int);
                 ft_putnbr_fd(a, 1);
+            }
+            else if (str[i] == 'u')
+            {
+                a = va_arg(args, int);
+                ft_putnbrsign(a);
+            }
+            else if (str[i] == 'x')
+            {
+                a = va_arg(args, int);
             }
         }
         else
@@ -96,15 +101,15 @@ int ft_printf(char const *str, ...)
         i++;
     }
     va_end(args);
+    return (1);
 }
 
 int main(void)
 {
     int a;
     int b;
-
     b = 42;
     void    *ptr = a;
-    char word[] = "Hola que tal %s, me ll%cmo manuel %%, y me gustan las cuquitas kkkkkkk %i";
-    ft_printf(word, "estas", 'a', b);
+    char word[] = "Hola que tal %s, me ll%cmo manuel %%, y me gustan las cuquitas kkkkkkk %i, soy el esclavo numero %d, jesus te quiero %u y esto es hexadecimal: %x";
+    ft_printf(word, "estas", 'a', b, 56, -67, 123);
 }

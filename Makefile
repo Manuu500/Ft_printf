@@ -1,11 +1,19 @@
-NAME = libft.a
+NAME = ft_printf.a
 
 # Archivos fuente
-SRCS = ft_printft.c
+SRCS = ft_printf.c \
+		ft_putchar_fd.c \
+		ft_putnbr_fd.c \
+		ft_putstr_fd.c \
+		ft_strlen.c \
+		ft_putnbrsign.c \
+		ft_putnbrlong.c \
+		ft_print_hex.c
+
 
 FLAGS = -Wall -Wextra -g -Werror
 
-CC = cc
+CC = gcc
 
 CLEAN = rm -rf
 

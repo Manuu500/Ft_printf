@@ -8,7 +8,9 @@ SRCS = ft_printf.c \
 		ft_strlen.c \
 		ft_putnbrsign.c \
 		ft_putnbrlong.c \
-		ft_print_hex.c
+		ft_print_hex.c \
+		ft_strdup.c \
+		ft_memcpy.c
 
 
 FLAGS = -Wall -Wextra -g -Werror
@@ -36,5 +38,8 @@ fclean: clean
 	@$(CLEAN) *.a
 
 re: fclean all
+
+test: $(NAME)
+	cc  test.c ft_printf.a
 
 .PHONY: all clean fclean re

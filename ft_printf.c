@@ -6,7 +6,7 @@
 /*   By: mruiz-ur <mruiz-ur@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:42:06 by mruiz-ur          #+#    #+#             */
-/*   Updated: 2025/01/13 12:59:46 by mruiz-ur         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:23:54 by mruiz-ur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int ft_printf(char const *str, ...)
     size_t  i;
     char    *s;
     int a;
+    void    *v;
 
     va_start(args, str);
     s = (char *)str;
@@ -88,12 +89,24 @@ int ft_printf(char const *str, ...)
             }
             else if (str[i] == 'u')
             {
-                a = va_arg(args, int);
+                a = va_arg(args, unsigned int);
                 ft_putnbrsign(a);
             }
             else if (str[i] == 'x')
             {
-                a = va_arg(args, int);
+                a = va_arg(args, unsigned int);
+                ft_print_hex(a, 0);
+            }
+            else if (str[i] == 'X')
+            {
+                a = va_arg(args, unsigned int);
+                ft_print_hex(a, 1);
+            }
+            else if (str[i] == 'p')
+            {
+                v = va_arg(args, void   *);
+                ft_putstr_fd("0x", 1);
+                ft_print_hex((unsigned long)v, 0);
             }
         }
         else
@@ -102,14 +115,4 @@ int ft_printf(char const *str, ...)
     }
     va_end(args);
     return (1);
-}
-
-int main(void)
-{
-    int a;
-    int b;
-    b = 42;
-    void    *ptr = a;
-    char word[] = "Hola que tal %s, me ll%cmo manuel %%, y me gustan las cuquitas kkkkkkk %i, soy el esclavo numero %d, jesus te quiero %u y esto es hexadecimal: %x";
-    ft_printf(word, "estas", 'a', b, 56, -67, 123);
 }

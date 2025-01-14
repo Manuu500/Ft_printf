@@ -6,17 +6,19 @@
 /*   By: mruiz-ur <mruiz-ur@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 17:22:14 by mruiz-ur          #+#    #+#             */
-/*   Updated: 2025/01/13 12:13:00 by mruiz-ur         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:15:03 by mruiz-ur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 
-void	ft_putnbr_fd(int n, int fd)
+int	ft_putnbr_fd(int n, int fd)
 {
+	int	counter;
 	char	c;
 
+	counter = 0;
 	if (n < 0)
 	{
 		write(fd, "-", 1);
@@ -32,5 +34,7 @@ void	ft_putnbr_fd(int n, int fd)
 	{
 		c = n % 10 + '0';
 		write (fd, &c, 1);
+		counter++;
 	}
+	return(counter);
 }

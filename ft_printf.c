@@ -6,64 +6,21 @@
 /*   By: mruiz-ur <mruiz-ur@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 18:42:06 by mruiz-ur          #+#    #+#             */
-/*   Updated: 2025/01/14 11:23:54 by mruiz-ur         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:38:31 by mruiz-ur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-// #include <unistd.h>
-// #include <stdarg.h>
-// #include <stdio.h>
-// #include <string.h>
-// #include <stdlib.h>
 
-// char    *display_word(char const *str, size_t i, va_list args, const char *s)
-// {
-//     char    *mem;
-//     size_t  j;
-
-//     j = 0;
-//     s = va_arg(args, char *);
-//     mem = malloc(sizeof(char*) * strlen(s) + 1);
-//     if (!mem)
-//         free(mem);
-//     if (s != NULL)
-//     {
-//         while (s[j])
-//         {
-//             mem[j] = s[j];
-//             j++;
-//         }
-//         mem[j] = '\0';
-//     } 
-//     return (mem);
-// }
-
-// char    *display_char(char const *str, va_list args, const char *s)
-// {
-//     char    *mem;
-
-//     s = va_arg(args, char *);
-//     mem = malloc(sizeof(char) * strlen(str) + 1);
-//     if (!mem)
-//         return (NULL);
-//     if (s != NULL)
-//     {
-//       write(1, &s, 1);
-//     }
-//     return (mem);
-// }
 
 int ft_printf(char const *str, ...)
 {
     va_list args;
     size_t  i;
-    char    *s;
-    int a;
-    void    *v;
+    size_t counter;
 
     va_start(args, str);
-    s = (char *)str;
+    counter = 0;
     i = 0;
     while (str[i] != '\0')
     {
@@ -71,48 +28,30 @@ int ft_printf(char const *str, ...)
         {
             i++;
             if (str[i] == 's')
-            {
-                s = va_arg(args, char *);
-                ft_putstr_fd(s, 1);
-            }
+                counter += ft_putstr_fd(va_arg(args, char *), 1);
             else if (str[i] == 'c')
-            {
-                a = va_arg(args, int);
-                ft_putchar_fd(a, 1);
-            }
+                counter += ft_putchar_fd(va_arg(args, int), 1);
             else if (str[i] == '%')
-                ft_putchar_fd('%', 1);
+                counter += ft_putchar_fd('%', 1);
             else if (str[i] == 'i' || str[i] == 'd')
-            {
-                a = va_arg(args, int);
-                ft_putnbr_fd(a, 1);
-            }
+                counter += ft_putnbr_fd(va_arg(args, int), 1);
             else if (str[i] == 'u')
-            {
-                a = va_arg(args, unsigned int);
-                ft_putnbrsign(a);
-            }
+                counter += ft_putnbrsign(va_arg(args, unsigned int));
             else if (str[i] == 'x')
-            {
-                a = va_arg(args, unsigned int);
-                ft_print_hex(a, 0);
-            }
+                counter += ft_print_hex(va_arg(args, unsigned int), 0);
             else if (str[i] == 'X')
-            {
-                a = va_arg(args, unsigned int);
-                ft_print_hex(a, 1);
-            }
+                counter += ft_print_hex(va_arg(args, unsigned int), 1);
             else if (str[i] == 'p')
             {
-                v = va_arg(args, void   *);
                 ft_putstr_fd("0x", 1);
-                ft_print_hex((unsigned long)v, 0);
+                counter +=2;
+                counter += ft_print_hex((unsigned long)va_arg(args, void   *), 0);
             }
         }
         else
-          ft_putchar_fd(str[i], 1);
+          counter += ft_putchar_fd(str[i], 1);
         i++;
     }
     va_end(args);
-    return (1);
+    return (counter);
 }

@@ -6,13 +6,13 @@
 /*   By: mruiz-ur <mruiz-ur@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:57:27 by mruiz-ur          #+#    #+#             */
-/*   Updated: 2025/01/14 10:48:58 by mruiz-ur         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:41:33 by mruiz-ur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static size_t	get_num_length(unsigned int a)
+static size_t	get_num_length(unsigned long a)
 {
 	size_t	i;
 
@@ -28,13 +28,15 @@ static size_t	get_num_length(unsigned int a)
 }
 
 
-void	ft_print_hex(unsigned int number, int upper)
+int	ft_print_hex(unsigned long number, int upper)
 {
 	unsigned int	n;
 	int	i;
 	char	*hex;
 	char	*base;
+	int	counter;
 
+	counter = 0;
 	n = get_num_length(number);
 	i = n - 1;
 	if (upper == 1)
@@ -54,7 +56,9 @@ void	ft_print_hex(unsigned int number, int upper)
 	while (hex[i])
 	{
 		write(1, &hex[i], 1);
+		counter++;
 		i++;	
 	}
 	free(hex);
+	return(counter);
 }

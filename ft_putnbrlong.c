@@ -6,21 +6,25 @@
 /*   By: mruiz-ur <mruiz-ur@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:14:37 by mruiz-ur          #+#    #+#             */
-/*   Updated: 2025/01/13 12:17:39 by mruiz-ur         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:19:41 by mruiz-ur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 
-void	ft_putnbrlong(unsigned int n, int fd)
+int	ft_putnbrlong(unsigned int n, int fd)
 {
+	int	counter;
 	char	c;
-
+	
+	counter = 0;
 	if (n >= 10)
 	{
 		ft_putnbr_fd(n / 10, fd);
 	}
 	c = n % 10 + '0';
+	counter++;
 	write (fd, &c, 1);
+	return(counter);
 }
